@@ -1,3 +1,4 @@
 package com.sp.devthread.models;
 
-public class Comment { }
+public class Comment {
+}
