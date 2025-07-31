@@ -1,8 +1,16 @@
 package com.sp.devthread.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -12,26 +20,5 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private AppRole appRole;
 
-    public Role() {}
 
-    public Role(Long roleId, AppRole appRole) {
-        this.roleId = roleId;
-        this.appRole = appRole;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public AppRole getAppRole() {
-        return appRole;
-    }
-
-    public void setAppRole(AppRole appRole) {
-        this.appRole = appRole;
-    }
 }
