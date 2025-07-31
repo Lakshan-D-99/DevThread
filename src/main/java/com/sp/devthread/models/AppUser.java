@@ -28,6 +28,12 @@ public class AppUser {
         this.password = password;
     }
 
+    public AppUser(String userName, String userEmail, String password) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.password = password;
+    }
+
     public Long getUserId() {
         return userId;
     }
