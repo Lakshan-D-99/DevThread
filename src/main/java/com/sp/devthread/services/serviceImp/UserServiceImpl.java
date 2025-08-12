@@ -25,4 +25,29 @@ public class UserServiceImpl implements UserService {
         return Optional.of(user);
 
     }
+
+    @Override
+    public boolean existsUserByUserName(String userName) {
+
+        Optional<User> isUser = userRepository.findByUserName(userName);
+
+        return isUser.isPresent();
+    }
+
+
+    @Override
+    public boolean findUserByUserEmail(String userEmail) {
+
+        Optional<User> isUser = userRepository.findByUserEmail(userEmail);
+
+        return isUser.isPresent();
+    }
+
+    @Override
+    public User registerNewUser(User user) {
+       return userRepository.save(user);
+
+    }
+
+
 }
