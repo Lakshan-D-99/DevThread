@@ -19,7 +19,7 @@ public class SignUpRequest {
     @NotBlank(message = "A Username is required to Register")
     private String userName;
     @Email(message = "An Email is required to Register")
-    private String email;
+    private String userEmail;
     @NotBlank
     @Size(min = 8, max = 40, message = "A password with more than 8 characters is required to register")
     private String password;

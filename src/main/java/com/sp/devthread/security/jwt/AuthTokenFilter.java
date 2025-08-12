@@ -31,6 +31,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // We have to skip the public paths, because they dont have to be authenticated.
+
+        // Get the current Path using the HttpServletRequest Object
+        String currentPath = request.getServletPath();
+
+        System.out.println("AuthTokenFilter: " + currentPath);
+
         try {
 
             // Firstly, we have to get the Token from the header -> to extract the User name from the Token
@@ -62,7 +70,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             System.out.println("AuthTokenFilter Error");
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
 
         // Lastly, we have to tell Spring Boot, that it should continue with other filter chanis, after using our filterchain

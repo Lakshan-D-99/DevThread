@@ -20,9 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +30,7 @@ import java.util.stream.Collectors;
  */
 
 @RestController
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     private final JwtUtils jwtUtils;
@@ -53,6 +52,7 @@ public class AuthenticationController {
     public ResponseEntity<?> signUpUser(@RequestBody SignUpRequest signUpRequest){
 
         // We have to do some validations First, before we move along.
+        System.out.println(signUpRequest.getUserEmail());
 
         // Check if the Username already exists in our Database.
         if (userService.existsUserByUserName(signUpRequest.getUserName())){
@@ -62,7 +62,7 @@ public class AuthenticationController {
         }
 
         // Check if the User Email already exists in the Database
-        if (userService.findUserByUserEmail(signUpRequest.getEmail())){
+        if (userService.findUserByUserEmail(signUpRequest.getUserEmail())){
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("A User already exists with the provided User Email!"));
@@ -71,7 +71,7 @@ public class AuthenticationController {
         // Now convert the SignUp Request into a User Object, so that we can store it in our Database.
         User user = new User();
         user.setUserName(signUpRequest.getUserName());
-        user.setUserEmail(signUpRequest.getEmail());
+        user.setUserEmail(signUpRequest.getUserEmail());
 
         // Encode Passwords because we don't save raw passwords in the Database. Therefore, we can use our PasswordEncoder Bean in the Security Config class.
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
@@ -158,5 +158,17 @@ public class AuthenticationController {
         LoginUserResponse loginUserResponse = new LoginUserResponse(userDetails.getId(), token, userDetails.getUsername(), userRoles);
 
         return ResponseEntity.ok(loginUserResponse);
+    }
+
+    // Get the currently logged-in Users userName
+    @GetMapping("/username")
+    public String getCurrentUserName(Authentication authentication){
+        if (authentication != null){
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+            return userDetails.getUsername();
+        }
+        return "not logged in User";
     }
 }

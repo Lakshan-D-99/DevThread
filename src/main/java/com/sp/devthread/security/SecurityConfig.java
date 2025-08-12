@@ -97,12 +97,17 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/api/public/**").permitAll()
-                .requestMatchers("/api/admin/**").permitAll().anyRequest().authenticated()
+                .requestMatchers("/api/admin/**").permitAll()
+                .anyRequest().authenticated()
         );
 
         http.authenticationProvider(daoAuthProvider());
 
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.headers(headers -> headers.frameOptions(
+                frameOptions -> frameOptions.sameOrigin()
+        ));
 
         return http.build();
     }
@@ -112,6 +117,7 @@ public class SecurityConfig {
     * will get ignored on this paths. This is usefull when we need to load static resources like images, javascript files and
     * css files.
     * */
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return web -> web.ignoring().requestMatchers(
                 "/v2/api-docs",
@@ -122,4 +128,6 @@ public class SecurityConfig {
                 "/webjars/**"
         );
     }
+
+
 }

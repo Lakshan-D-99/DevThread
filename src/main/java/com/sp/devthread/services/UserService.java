@@ -12,5 +12,5 @@ public interface UserService {
 
     boolean findUserByUserEmail(String userEmail);
 
-    User registerNewUser(User user);
+    void registerNewUser(User user);
 }
