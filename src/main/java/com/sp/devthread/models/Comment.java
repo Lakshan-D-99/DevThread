@@ -22,6 +22,7 @@ public class Comment {
     @Column(nullable = false)
     private String commentBody;
     private LocalDate publishedDate;
+    private LocalDate updatedDate;
 
     /**
      * Single or Many Comments should be belonged to a specfic User. Therefore we have a Many to One relationship between Comment and User.

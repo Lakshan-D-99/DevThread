@@ -1,15 +1,14 @@
 package com.sp.devthread.daos.ResponsetDaos.PostResponses;
 
-import com.sp.devthread.daos.ResponsetDaos.CategoryResponses.CategoryResponse;
+import com.sp.devthread.daos.ResponsetDaos.CategoryResponses.CategoryResponseDao;
 import com.sp.devthread.daos.ResponsetDaos.CommentResponses.CommentResponseDao;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,5 +22,7 @@ public class PostResponseDao {
     private LocalDate createdDate;
     private long userId;
     private List<CommentResponseDao> commentResponseDaoList = new ArrayList<>();
-    private List<CategoryResponse> categoryResponseList = new ArrayList<>();
+    private Set<CategoryResponseDao> categoryResponseDaoSet = new HashSet<>();
+
+
 }

@@ -1,5 +1,7 @@
 package com.sp.devthread.services.serviceImp;
 
+import com.sp.devthread.Utils.Mapper;
+import com.sp.devthread.daos.ResponsetDaos.UserResponses.UserResponseDao;
 import com.sp.devthread.models.User;
 import com.sp.devthread.repositories.UserRepository;
 import com.sp.devthread.services.UserService;
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final Mapper mapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, Mapper mapper) {
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -24,6 +28,20 @@ public class UserServiceImpl implements UserService {
 
         return Optional.of(user);
 
+    }
+
+    @Override
+    public User findUserByPassedInUserId(long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()->
+                new RuntimeException("The User with the UserId: " + userId + " does not exists"));
+
+        return user;
+    }
+
+    @Override
+    public String getUserNameByPassedInId(long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("A User with the ID:" + userId + " does not exists"));
+        return user.getUserName();
     }
 
     @Override

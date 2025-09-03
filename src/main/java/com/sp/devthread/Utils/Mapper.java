@@ -59,13 +59,13 @@ public class Mapper {
     }
 
     // Conver a User entitiy into UserResponseDao
-    public UserResponseDao conEntityToDao(User user){
-        UserResponseDao userResponseDao = new UserResponseDao();
-        userResponseDao.setId(user.getId());
-        userResponseDao.setUserName(user.getUserName());
-        userResponseDao.setUserEmail(user.getUserEmail());
-        return userResponseDao;
-    }
+//    public User conEntityToDao(User user){
+//        User userResponseDao = new UserResponseDao();
+//        userResponseDao.setId(user.getId());
+//        userResponseDao.setUserName(user.getUserName());
+//        userResponseDao.setUserEmail(user.getUserEmail());
+//        return userResponseDao;
+//    }
 
 
 }

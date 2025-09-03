@@ -3,6 +3,7 @@ package com.sp.devthread.controllers;
 import com.sp.devthread.daos.RequestDaos.AuthenticateRequests.LogInRequest;
 import com.sp.devthread.daos.RequestDaos.AuthenticateRequests.SignUpRequest;
 import com.sp.devthread.daos.ResponsetDaos.AuthenticateResponses.LoginUserResponse;
+import com.sp.devthread.daos.ResponsetDaos.GlobalResponses.APIResponse;
 import com.sp.devthread.daos.ResponsetDaos.GlobalResponses.MessageResponse;
 import com.sp.devthread.models.AppRole;
 import com.sp.devthread.models.Role;
@@ -107,7 +108,7 @@ public class AuthenticationController {
         user.setRoles(roles);
         userService.registerNewUser(user);
 
-        return ResponseEntity.ok(new MessageResponse("User Registered successfully !"));
+        return ResponseEntity.ok(new APIResponse("User Registered successfully !"));
     }
 
 
@@ -161,14 +162,27 @@ public class AuthenticationController {
     }
 
     // Get the currently logged-in Users userName
-    @GetMapping("/username")
-    public String getCurrentUserName(Authentication authentication){
-        if (authentication != null){
+    @GetMapping("/user-details")
+    public ResponseEntity<?> getCurrentUserName(Authentication authentication){
+        try {
+            if (authentication != null){
 
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-            return userDetails.getUsername();
+                LoginUserResponse loginUserResponse = new LoginUserResponse();
+                loginUserResponse.setId(userDetails.getId());
+                loginUserResponse.setUserName(userDetails.getUsername());
+                loginUserResponse.setJwtToken("");
+
+                List<String> userRoles = userDetails.getAuthorities().stream().map(Object::toString).collect(Collectors.toList());
+                loginUserResponse.setRoles(userRoles);
+
+                return ResponseEntity.ok(loginUserResponse);
+            }
+            return ResponseEntity.badRequest().body(new APIResponse("Please log in first to continue"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body("Error getting logged in User details ");
         }
-        return "not logged in User";
     }
 }

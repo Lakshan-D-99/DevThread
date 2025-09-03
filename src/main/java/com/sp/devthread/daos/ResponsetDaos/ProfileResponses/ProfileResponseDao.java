@@ -1,6 +1,5 @@
-package com.sp.devthread.models;
+package com.sp.devthread.daos.ResponsetDaos.ProfileResponses;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,20 +11,12 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "profile")
-public class Profile {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProfileResponseDao {
     private Long id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
     private String profilePicture;
     private String bioData;
-
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")  // only here
-    private User user;
+    private Long userId;
 }

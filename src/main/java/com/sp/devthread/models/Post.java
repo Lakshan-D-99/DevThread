@@ -28,6 +28,7 @@ public class Post {
     private String postImage;
     private String postBody;
     private LocalDate createdDate;
+    private LocalDate updatedDate;
 
     /**
      * A Post should always belongs to a specific User. And a User can make multiple Posts. Therfore we have a Many to One Relationship

@@ -54,10 +54,8 @@ public class User {
      * One User can have only One Profile and a Profile can only belongs to a single User. Therfore we have a One to One Relationship
      * between User and Profile.
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id",referencedColumnName = "id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Profile profile;
-
     /**
      * One User can have multiple Posts and a Post should always belongs to a specific User. Therfore we have a One to Many Relationship
      * between User and Post.
